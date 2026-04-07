@@ -1,24 +1,26 @@
 # RNTC-MPC
 
-> This repo contains an unofficial implementation of the **Residual Neural Terminal Constraint MPC (RNTC-MPC)** method for safe navigation of mobile robots in dynamic environments, as presented at CoRL 2025.
+> This repo contains an unofficial implementation of the **Residual Neural Terminal Constraint MPC (RNTC-MPC)** method for safe navigation of mobile robots in dynamic environments, as presented at CoRL 2025 (PMLR vol. 305, pp. 1452–1469).
 
 ---
 
 ## Paper
 
-**Residual Neural Terminal Constraints for Model Predictive Control**  
-B. Derajic et al., *Proceedings of Machine Learning Research (CoRL 2025)*, vol. 305, 2025.
+**Residual Neural Terminal Constraint for MPC-based Collision Avoidance in Dynamic Environments**  
+Bojan Derajic, Mohamed-Khalil Bouzidi, Sebastian Bernhard, Wolfgang Hönig  
+*Proceedings of The 9th Conference on Robot Learning (CoRL 2025)*, PMLR vol. 305, pp. 1452–1469, 2025.
 
 | Resource                   | Link                                                                                                      |
 | -------------------------- | --------------------------------------------------------------------------------------------------------- |
-| CoRL 2025 PMLR Proceedings | [derajic25a.pdf](https://raw.githubusercontent.com/mlresearch/v305/main/assets/derajic25a/derajic25a.pdf) |
+| CoRL 2025 PMLR Proceedings | [proceedings.mlr.press/v305/derajic25a](https://proceedings.mlr.press/v305/derajic25a.html)               |
+| PDF                        | [derajic25a.pdf](https://raw.githubusercontent.com/mlresearch/v305/main/assets/derajic25a/derajic25a.pdf) |
 | arXiv preprint             | [arXiv:2508.03428](https://arxiv.org/pdf/2508.03428v1)                                                    |
 
 ---
 
 ## Overview
 
-RNTC-MPC learns a *residual correction* on top of a signed-distance-function (SDF) term to approximate the Hamilton-Jacobi (HJ) value function for a kinematic unicycle robot. At runtime the approximated value function is used as a **terminal safety constraint** inside a Model Predictive Control (MPC) optimisation problem, enabling safe robot navigation.
+RNTC-MPC learns a *residual correction* on top of a signed-distance-function (SDF) term to approximate the Hamilton-Jacobi (HJ) value function. At runtime the approximated value function is used as a **terminal safety constraint** inside a Model Predictive Control (MPC) optimisation problem, enabling safe robot navigation.
 
 The repository is split into three independent workspaces that together cover the full pipeline — from offline data generation and model training to closed-loop simulation evaluation.
 
@@ -92,15 +94,19 @@ See [ros2_ws/README.md](ros2_ws/README.md) for prerequisites, installation, and 
 If you use this code in your research, please cite the original paper:
 
 ```bibtex
-@inproceedings{derajic25a,
-  title     = {Residual Neural Terminal Constraints for Model Predictive Control},
-  author    = {Derajic, Bojan and others},
+@InProceedings{pmlr-v305-derajic25a,
+  title     = {Residual Neural Terminal Constraint for MPC-based Collision Avoidance in Dynamic Environments},
+  author    = {Derajic, Bojan and Bouzidi, Mohamed-Khalil and Bernhard, Sebastian and H\"{o}nig, Wolfgang},
   booktitle = {Proceedings of The 9th Conference on Robot Learning},
-  series    = {Proceedings of Machine Learning Research},
-  volume    = {305},
+  pages     = {1452--1469},
   year      = {2025},
+  editor    = {Lim, Joseph and Song, Shuran and Park, Hae-Won},
+  volume    = {305},
+  series    = {Proceedings of Machine Learning Research},
+  month     = {27--30 Sep},
   publisher = {PMLR},
-  url       = {https://raw.githubusercontent.com/mlresearch/v305/main/assets/derajic25a/derajic25a.pdf}
+  pdf       = {https://raw.githubusercontent.com/mlresearch/v305/main/assets/derajic25a/derajic25a.pdf},
+  url       = {https://proceedings.mlr.press/v305/derajic25a.html}
 }
 ```
 

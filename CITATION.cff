@@ -13,21 +13,36 @@ repository-code: "https://github.com/bojan-derajic/RNTC-MPC"
 authors:
   - family-names: Derajic
     given-names: Bojan
+  - family-names: Bouzidi
+    given-names: Mohamed-Khalil
+  - family-names: Bernhard
+    given-names: Sebastian
+  - family-names: Hönig
+    given-names: Wolfgang
 
 preferred-citation:
   type: conference-paper
-  title: "Residual Neural Terminal Constraints for Model Predictive Control"
+  title: "Residual Neural Terminal Constraint for MPC-based Collision Avoidance in Dynamic Environments"
   authors:
     - family-names: Derajic
       given-names: Bojan
+    - family-names: Bouzidi
+      given-names: Mohamed-Khalil
+    - family-names: Bernhard
+      given-names: Sebastian
+    - family-names: Hönig
+      given-names: Wolfgang
   collection-title: "Proceedings of The 9th Conference on Robot Learning"
   collection-type: proceedings
-  volume-title: "Proceedings of Machine Learning Research"
-  volume: "305"
+  series: "Proceedings of Machine Learning Research"
+  volume: 305
+  start: 1452
+  end: 1469
   year: 2025
+  month: 9
   publisher:
     name: PMLR
-  url: "https://raw.githubusercontent.com/mlresearch/v305/main/assets/derajic25a/derajic25a.pdf"
+  url: "https://proceedings.mlr.press/v305/derajic25a.html"
   identifiers:
     - type: url
       value: "https://arxiv.org/abs/2508.03428"
