@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="lidar" params="update_rate:=100.0 parent_link *origin">
+    <xacro:property name="ang_res_h" value="0.4" />
+    <xacro:property name="min_ang_h" value="${-pi}" />
+    <xacro:property name="max_ang_h" value="${pi}" />
+    <xacro:property name="ang_res_v" value="2.0" />
+    <xacro:property name="min_ang_v" value="-0.351799" /> <!-- Change this to the original value
+    (also for the upper limit) -->
+    <xacro:property name="max_ang_v" value="0.351799" />
+    <xacro:property name="range_res" value="0.01" />
+    <xacro:property name="min_range" value="0.05" />
+    <xacro:property name="max_range" value="6.0" />
+    <xacro:property name="samples_h"
+      value="${round((max_ang_h - min_ang_h) * 180.0 / (ang_res_h * pi))}" />
+    <xacro:property name="samples_v"
+      value="${round((max_ang_v - min_ang_v) * 180.0 / (ang_res_v * pi))}" />
+
+    <joint name="lidar_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent_link}" />
+      <child link="lidar_link" />
+    </joint>
+
+    <link name="lidar_link">
+      <inertial>
+        <origin xyz="0.0 0.0 0.03585" rpy="0.0 0.0 0.0" />
+        <mass value="0.83" />
+        <inertia ixx="${(0.83 * (3.0*0.0516*0.0516 + 0.0717*0.0717)) / 12.0}"
+          ixy="0"
+          ixz="0"
+          iyy="${(0.83 * (3.0*0.0516*0.0516 + 0.0717*0.0717)) / 12.0}"
+          iyz="0"
+          izz="${0.5 * 0.83 * (0.0516*0.0516)}" />
+      </inertial>
+      <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+        <geometry>
+          <mesh
+            filename="package://simulation_bringup/urdf/hardware_components/meshes/vlp16/vlp16_part_1.dae"
+            scale="1.0 1.0 1.0" />
+        </geometry>
+      </visual>
+      <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+        <geometry>
+          <mesh
+            filename="package://simulation_bringup/urdf/hardware_components/meshes/vlp16/vlp16_part_2.dae"
+            scale="1.0 1.0 1.0" />
+        </geometry>
+      </visual>
+      <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+        <geometry>
+          <mesh
+            filename="package://simulation_bringup/urdf/hardware_components/meshes/vlp16/vlp16_part_3.dae"
+            scale="1.0 1.0 1.0" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0.0 0.0 0.03585" rpy="0.0 0.0 0.0" />
+        <geometry>
+          <cylinder radius="0.0516" length="0.0717" />
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="lidar_sensor_joint" type="fixed">
+      <origin xyz="0.0 0.0 0.03585" rpy="0.0 0.0 0.0" />
+      <parent link="lidar_link" />
+      <child link="lidar_sensor" />
+    </joint>
+
+    <link name="lidar_sensor">
+      <inertial>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+        <mass value="0.001" />
+        <xacro:dummy_inertia />
+      </inertial>
+    </link>
+
+    <gazebo reference="lidar_sensor">
+      <sensor name="lidar_sensor" type="gpu_lidar">
+        <always_on>true</always_on>
+        <gz_frame_id>lidar_sensor</gz_frame_id>
+        <update_rate>${update_rate}</update_rate>
+        <visualize>true</visualize>
+        <topic>lidar</topic>
+        <lidar>
+          <scan>
+            <horizontal>
+              <samples>${samples_h}</samples>
+              <resolution>1.0</resolution>
+              <min_angle>${min_ang_h}</min_angle>
+              <max_angle>${max_ang_h}</max_angle>
+            </horizontal>
+            <vertical>
+              <samples>${samples_v}</samples>
+              <resolution>1.0</resolution>
+              <min_angle>${min_ang_v}</min_angle>
+              <max_angle>${max_ang_v}</max_angle>
+            </vertical>
+          </scan>
+          <range>
+            <min>${min_range}</min>
+            <max>${max_range}</max>
+            <resolution>${range_res}</resolution>
+          </range>
+        </lidar>
+      </sensor>
+    </gazebo>
+  </xacro:macro>
+</robot>

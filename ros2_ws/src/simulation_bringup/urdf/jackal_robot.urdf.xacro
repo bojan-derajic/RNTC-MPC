@@ -1,0 +1,218 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="jackal_robot">
+  <xacro:include filename="$(find simulation_bringup)/urdf/platform_components/wheel.urdf.xacro" />
+  <xacro:include filename="$(find simulation_bringup)/urdf/platform_components/fender.urdf.xacro" />
+  <xacro:include
+    filename="$(find simulation_bringup)/urdf/platform_components/lidar_mount.urdf.xacro" />
+  <xacro:include filename="$(find simulation_bringup)/urdf/hardware_components/lidar.urdf.xacro" />
+  <xacro:include filename="$(find simulation_bringup)/urdf/hardware_components/imu.urdf.xacro" />
+
+  <material name="dark_grey">
+    <color rgba="0.2 0.2 0.2 1.0" />
+  </material>
+  <material name="medium_grey">
+    <color rgba="0.6 0.6 0.6 1.0" />
+  </material>
+  <material name="light_grey">
+    <color rgba="0.8 0.8 0.8 1.0" />
+  </material>
+  <material name="yellow">
+    <color rgba="0.8 0.8 0.0 1.0" />
+  </material>
+  <material name="black">
+    <color rgba="0.1 0.1 0.1 1.0" />
+  </material>
+  <material name="white">
+    <color rgba="1.0 1.0 1.0 1.0" />
+  </material>
+  <material name="red">
+    <color rgba="1.0 0.0 0.0 1.0" />
+  </material>
+  <material name="aluminium">
+    <color rgba="0.5 0.5 0.5 1.0" />
+  </material>
+  <material name="plastic">
+    <color rgba="0.1 0.1 0.1 1.0" />
+  </material>
+
+  <xacro:property name="chassis_length" value="0.420" />
+  <xacro:property name="chassis_width" value="0.310" />
+  <xacro:property name="chassis_height" value="0.184" />
+  <xacro:property name="wheelbase" value="0.262" />
+  <xacro:property name="track" value="0.37559" />
+  <xacro:property name="wheel_vertical_offset" value="0.0345" />
+  <xacro:property name="wheel_radius" value="0.098" />
+  <xacro:property name="wheel_width" value="0.040" />
+  <xacro:property name="mount_spacing" value="0.120" />
+  <xacro:property name="lidar_mount_height" value="0.081" />
+
+  <xacro:macro name="dummy_inertia">
+    <inertia ixx="1e-9" ixy="0.0" ixz="0.0" iyy="1e-9" iyz="0.0" izz="1e-9" />
+  </xacro:macro>
+
+  <link name="base_footprint" />
+
+  <joint name="base_link_joint" type="fixed">
+    <origin xyz="0.0 0.0 ${wheel_radius - wheel_vertical_offset}" rpy="0.0 0.0 0.0" />
+    <parent link="base_footprint" />
+    <child link="base_link" />
+  </joint>
+
+  <link name="base_link" />
+
+  <joint name="chassis_link_joint" type="fixed">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+    <parent link="base_link" />
+    <child link="chassis_link" />
+  </joint>
+
+  <link name="chassis_link">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <mass value="16.523" />
+      <inertia ixx="0.3136" ixy="-0.0008" ixz="0.0164" iyy="0.3922" iyz="-0.0009" izz="0.4485" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 ${wheel_vertical_offset - wheel_radius}" rpy="${pi/2} 0.0 ${pi/2}" />
+      <geometry>
+        <mesh filename="package://simulation_bringup/urdf/platform_components/meshes/chassis.stl"
+          scale="1.0 1.0 1.0" />
+      </geometry>
+      <material name="dark_grey" />
+    </visual>
+    <collision name="chassis_link">
+      <origin xyz="0.0 0.0 ${chassis_height/2}" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <box size="0.508 0.43 0.25" />
+      </geometry>
+    </collision>
+  </link>
+
+  <gazebo reference="chassis_link">
+    <sensor name='contact_sensor' type='contact'>
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <contact>
+        <collision>base_footprint_fixed_joint_lump__chassis_link_collision</collision>
+        <topic>/contact</topic>
+      </contact>
+    </sensor>
+  </gazebo>
+
+  <xacro:wheel prefix="front_right" parent_link="base_link">
+    <origin xyz="${wheelbase/2} ${-track/2} ${wheel_vertical_offset}" rpy="${-pi/2} 0.0 0.0" />
+  </xacro:wheel>
+
+  <xacro:wheel prefix="front_left" parent_link="base_link">
+    <origin xyz="${wheelbase/2} ${track/2} ${wheel_vertical_offset}" rpy="${-pi/2} 0.0 0.0" />
+  </xacro:wheel>
+
+  <xacro:wheel prefix="rear_right" parent_link="base_link">
+    <origin xyz="${-wheelbase/2} ${-track/2} ${wheel_vertical_offset}" rpy="${-pi/2} 0.0 0.0" />
+  </xacro:wheel>
+
+  <xacro:wheel prefix="rear_left" parent_link="base_link">
+    <origin xyz="${-wheelbase/2} ${track/2} ${wheel_vertical_offset}" rpy="${-pi/2} 0.0 0.0" />
+  </xacro:wheel>
+
+  <xacro:fender prefix="front" model="default" parent_link="base_link">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+  </xacro:fender>
+
+  <xacro:fender prefix="back" model="default" parent_link="base_link">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 ${pi}" />
+  </xacro:fender>
+
+  <xacro:lidar_mount parent_link='base_link'>
+    <origin xyz="0.0 0.0 ${chassis_height}" rpy="0.0 0.0 0.0" />
+  </xacro:lidar_mount>
+
+  <xacro:lidar update_rate="100.0" parent_link="lidar_mount_link">
+    <origin xyz="0.0 0.0 ${lidar_mount_height}" rpy="0.0 0.0 0.0" />
+  </xacro:lidar>
+
+  <xacro:imu update_rate="100.0" parent_link="base_link">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+  </xacro:imu>
+
+  <gazebo>
+    <plugin name="gz::sim::systems::WheelSlip"
+      filename="libgz-sim-wheel-slip-system.so">
+      <wheel link_name="front_left_wheel_link">
+        <slip_compliance_lateral>1.0</slip_compliance_lateral>
+        <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
+        <wheel_normal_force>40</wheel_normal_force>
+        <wheel_radius>${wheel_radius}</wheel_radius>
+      </wheel>
+
+      <wheel link_name="front_right_wheel_link">
+        <slip_compliance_lateral>1.0</slip_compliance_lateral>
+        <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
+        <wheel_normal_force>40</wheel_normal_force>
+        <wheel_radius>${wheel_radius}</wheel_radius>
+      </wheel>
+
+      <wheel link_name="rear_left_wheel_link">
+        <slip_compliance_lateral>1.0</slip_compliance_lateral>
+        <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
+        <wheel_normal_force>40</wheel_normal_force>
+        <wheel_radius>${wheel_radius}</wheel_radius>
+      </wheel>
+
+      <wheel link_name="rear_right_wheel_link">
+        <slip_compliance_lateral>1.0</slip_compliance_lateral>
+        <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
+        <wheel_normal_force>40</wheel_normal_force>
+        <wheel_radius>${wheel_radius}</wheel_radius>
+      </wheel>
+    </plugin>
+  </gazebo>
+
+  <gazebo>
+    <plugin name="gz::sim::systems::OdometryPublisher"
+      filename="libgz-sim-odometry-publisher-system.so">
+      <odom_frame>odom</odom_frame>
+      <robot_base_frame>base_footprint</robot_base_frame>
+      <odom_publish_frequency>50.0</odom_publish_frequency>
+      <odom_topic>/odometry</odom_topic>
+      <dimensions>3</dimensions>
+      <xyz_offset>0.0 0.0 0.0</xyz_offset>
+    </plugin>
+  </gazebo>
+
+  <gazebo>
+    <plugin filename="libgz_ros2_control-system.so"
+      name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+      <parameters>$(find simulation_bringup)/config/control.yaml</parameters>
+      <ros>
+        <remapping>~/cmd_vel:=cmd_vel</remapping>
+      </ros>
+    </plugin>
+  </gazebo>
+
+  <ros2_control name="j100_hardware" type="system">
+    <hardware>
+      <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+    </hardware>
+    <joint name="front_left_wheel_joint">
+      <command_interface name="velocity" />
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+    </joint>
+    <joint name="rear_left_wheel_joint">
+      <command_interface name="velocity" />
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+    </joint>
+    <joint name="front_right_wheel_joint">
+      <command_interface name="velocity" />
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+    </joint>
+    <joint name="rear_right_wheel_joint">
+      <command_interface name="velocity" />
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+    </joint>
+  </ros2_control>
+</robot>

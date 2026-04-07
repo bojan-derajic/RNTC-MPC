@@ -1,0 +1,9 @@
+build/
+install/
+log/
+*.npy
+*.pth
+**/__pycache__/
+.vscode/
+ThirdParty-HSL/*
+!ThirdParty-HSL/.gitkeep

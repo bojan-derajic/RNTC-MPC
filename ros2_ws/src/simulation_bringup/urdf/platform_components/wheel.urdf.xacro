@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="wheel" params="prefix parent_link *origin">
+    <joint name="${prefix}_wheel_joint" type="continuous">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent_link}" />
+      <child link="${prefix}_wheel_link" />
+      <axis xyz="0.0 0.0 1.0" />
+    </joint>
+
+    <link name="${prefix}_wheel_link">
+      <inertial>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+        <mass value="0.477" />
+        <inertia ixx="0.0013" ixy="0.0" ixz="0.0" iyy="0.0013" iyz="0.0" izz="0.0024" />
+      </inertial>
+      <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+        <geometry>
+          <mesh filename="package://simulation_bringup/urdf/platform_components/meshes/wheel.stl"
+            scale="1.0 1.0 1.0" />
+        </geometry>
+        <material name="black" />
+      </visual>
+      <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${wheel_width}" />
+        </geometry>
+      </collision>
+    </link>
+  </xacro:macro>
+</robot>

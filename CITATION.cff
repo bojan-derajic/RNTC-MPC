@@ -1,0 +1,34 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the paper below."
+type: software
+title: "RNTC-MPC: Residual Neural Terminal Constraint MPC"
+abstract: >
+  Unofficial implementation of the Residual Neural Terminal Constraint MPC (RNTC-MPC)
+  method for safe navigation of mobile robots in dynamic environments.
+  The repository covers HJ reachability data generation, hypernetwork training,
+  and closed-loop simulation evaluation in ROS 2 / Gazebo.
+license: MIT
+repository-code: "https://github.com/bojan-derajic/RNTC-MPC"
+
+authors:
+  - family-names: Derajic
+    given-names: Bojan
+
+preferred-citation:
+  type: conference-paper
+  title: "Residual Neural Terminal Constraints for Model Predictive Control"
+  authors:
+    - family-names: Derajic
+      given-names: Bojan
+  collection-title: "Proceedings of The 9th Conference on Robot Learning"
+  collection-type: proceedings
+  volume-title: "Proceedings of Machine Learning Research"
+  volume: "305"
+  year: 2025
+  publisher:
+    name: PMLR
+  url: "https://raw.githubusercontent.com/mlresearch/v305/main/assets/derajic25a/derajic25a.pdf"
+  identifiers:
+    - type: url
+      value: "https://arxiv.org/abs/2508.03428"
+      description: arXiv preprint

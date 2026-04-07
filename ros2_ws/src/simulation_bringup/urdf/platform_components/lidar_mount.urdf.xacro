@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="lidar_mount" params="parent_link *origin">
+    <joint name="lidar_mount_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent_link}" />
+      <child link="lidar_mount_link" />
+    </joint>
+
+    <link name="lidar_mount_link">
+      <visual name="">
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+        <geometry>
+          <mesh
+            filename="package://simulation_bringup/urdf/platform_components/meshes/lidar_mount.stl"
+            scale="1.0 1.0 1.0" />
+        </geometry>
+        <material name="aluminium" />
+      </visual>
+      <collision>
+        <origin xyz="0.0 0.0 ${lidar_mount_height/2}" rpy="0.0 0.0 0.0" />
+        <geometry>
+          <box size="0.105 0.141 ${lidar_mount_height}" />
+        </geometry>
+      </collision>
+    </link>
+  </xacro:macro>
+</robot>

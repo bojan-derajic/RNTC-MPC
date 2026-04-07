@@ -1,0 +1,48 @@
+{
+    "name": "ROS 2 Workspace",
+    "remoteUser": "ubuntu",
+    "build": {
+        "context": "..",
+        "dockerfile": "../Dockerfile"
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "charliermarsh.ruff",
+                "ms-vscode.cpptools-extension-pack",
+                "redhat.vscode-xml",
+                "tamasfe.even-better-toml",
+                "timonwong.shellcheck",
+                "yzhang.markdown-all-in-one",
+                "ms-azuretools.vscode-docker",
+                "ms-python.black-formatter",
+                "ms-toolsai.jupyter",
+                "ms-python.vscode-pylance"
+            ],
+            "settings": {
+                "files.associations": {
+                    "*.rviz": "yaml",
+                    "*.sdf": "xml",
+                    "*.urdf": "xml",
+                    "*.xacro": "xml"
+                }
+            }
+        }
+    },
+    "workspaceFolder": "/home/ubuntu/ros2_ws",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/home/ubuntu/ros2_ws,type=bind",
+    "postCreateCommand": ". scripts/install_hsl_lib.sh",
+    "runArgs": [
+        "--privileged",
+        "--net=host",
+        "--gpus=all",
+        "--user=ubuntu",
+        "--env=DISPLAY=${env:DISPLAY}",
+        "--env=QT_X11_NO_MITSHM=1",
+        "--env=XAUTHORITY=${env:XAUTHORITY}",
+        "--env=NVIDIA_DRIVER_CAPABILITIES=all",
+        "--volume=/tmp/.X11-unix:/tmp/.X11-unix:rw",
+        "--volume=${env:XAUTHORITY}:${env:XAUTHORITY}"
+    ]
+}

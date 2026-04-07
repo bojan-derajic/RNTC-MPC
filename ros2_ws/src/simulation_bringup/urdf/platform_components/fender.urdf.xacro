@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="fender" params="prefix model parent_link *origin">
+    <joint name="${prefix}_fender_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent_link}" />
+      <child link="${prefix}_fender_link" />
+    </joint>
+
+    <link name="${prefix}_fender_link">
+      <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+        <geometry>
+          <xacro:if value="${model == 'default'}">
+            <mesh
+              filename="package://simulation_bringup/urdf/platform_components/meshes/fender_default.stl"
+              scale="1.0 1.0 1.0" />
+          </xacro:if>
+          <xacro:if value="${model == 'mount'}">
+            <mesh
+              filename="package://simulation_bringup/urdf/platform_components/meshes/fender_mount.stl"
+              scale="1.0 1.0 1.0" />
+          </xacro:if>
+        </geometry>
+        <material name="yellow" />
+      </visual>
+    </link>
+
+    <xacro:if value="${model == 'mount'}">
+      <joint name="${prefix}_fender_mount_joint" type="fixed">
+        <origin xyz="0.25629 0 0.07455" rpy="0.0 0.0 0.0" />
+        <parent link="${prefix}_fender_link" />
+        <child link="${prefix}_fender_mount" />
+      </joint>
+
+      <link name="${prefix}_fender_mount" />
+    </xacro:if>
+  </xacro:macro>
+</robot>

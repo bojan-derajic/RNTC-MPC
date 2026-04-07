@@ -1,0 +1,7 @@
+*.npy
+*.pth
+
+.vscode/
+**/__pycache__
+mlruns/*
+!mlruns/.gitkeep
