@@ -1,10 +1,6 @@
 # RNTC-MPC: Residual Neural Terminal Constraint MPC
 
-Evaluation framework for the **Residual Neural Terminal Constraint MPC (RNTC-MPC)** method for dynamic obstacle avoidance with mobile robots, as described in:
-
-> **Residual Neural Terminal Constraints for Model Predictive Control**  
-> B. Derajic et al., *Proceedings of Machine Learning Research*, 2025.  
-> [Paper PDF](https://raw.githubusercontent.com/mlresearch/v305/main/assets/derajic25a/derajic25a.pdf)
+Evaluation framework for the **Residual Neural Terminal Constraint MPC (RNTC-MPC)** method for dynamic obstacle avoidance with mobile robots.
 
 The framework runs a Jackal robot in Gazebo Sim (Harmonic / Jazzy) and benchmarks five collision-avoidance MPC variants across 100 randomly generated dynamic obstacle scenarios.
 
@@ -154,11 +150,11 @@ ros2 launch simulation_bringup jackal_robot.launch.py
 
 **Launch arguments:**
 
-| Argument      | Default   | Description                                |
-|---------------|-----------|--------------------------------------------|
-| `world_model` | `empty`   | Gazebo world (`empty`, `warehouse`, `house`) |
-| `gazebo_gui`  | `false`   | Show the Gazebo GUI                        |
-| `rviz`        | `false`   | Launch RViz for visualisation              |
+| Argument      | Default | Description                                  |
+| ------------- | ------- | -------------------------------------------- |
+| `world_model` | `empty` | Gazebo world (`empty`, `warehouse`, `house`) |
+| `gazebo_gui`  | `false` | Show the Gazebo GUI                          |
+| `rviz`        | `false` | Launch RViz for visualisation                |
 
 Example with GUI:
 ```bash
@@ -235,18 +231,18 @@ Each file contains:
 
 ### ROS 2 Topics
 
-| Topic                | Type                      | Direction    | Description                              |
-|----------------------|---------------------------|--------------|------------------------------------------|
-| `/odometry`          | `nav_msgs/Odometry`       | Gazebo → ROS | Robot pose (via EKF)                     |
-| `/cmd_vel`           | `geometry_msgs/TwistStamped` | ROS → Gazebo | MPC velocity command                  |
-| `/local_obstacles`   | `std_msgs/Float64MultiArray` | Env → MPC   | 4×4 matrix [px, py, vx, vy]             |
-| `/goal_pose`         | `geometry_msgs/PoseStamped` | Env → MPC   | Navigation goal                          |
-| `/predicted_path`    | `nav_msgs/Path`           | MPC → RViz   | Predicted trajectory over horizon        |
-| `/mpc_opt_time`      | `std_msgs/Float32`        | MPC → Env    | Solve time [ms]                          |
-| `/contact`           | `ros_gz_interfaces/Contacts` | Gazebo → ROS | Collision detection                   |
-| `/obstacle_pose`     | `geometry_msgs/PoseArray` | Gazebo → ROS | All entity poses (ground, robot, obst.)  |
-| `/cmd_vel_000`…`009` | `geometry_msgs/Twist`     | Env → Gazebo | Per-obstacle velocity commands           |
-| `/vf`                | `sensor_msgs/Image`       | VF node → RViz | Value-function image (optional)        |
+| Topic                | Type                         | Direction      | Description                             |
+| -------------------- | ---------------------------- | -------------- | --------------------------------------- |
+| `/odometry`          | `nav_msgs/Odometry`          | Gazebo → ROS   | Robot pose (via EKF)                    |
+| `/cmd_vel`           | `geometry_msgs/TwistStamped` | ROS → Gazebo   | MPC velocity command                    |
+| `/local_obstacles`   | `std_msgs/Float64MultiArray` | Env → MPC      | 4×4 matrix [px, py, vx, vy]             |
+| `/goal_pose`         | `geometry_msgs/PoseStamped`  | Env → MPC      | Navigation goal                         |
+| `/predicted_path`    | `nav_msgs/Path`              | MPC → RViz     | Predicted trajectory over horizon       |
+| `/mpc_opt_time`      | `std_msgs/Float32`           | MPC → Env      | Solve time [ms]                         |
+| `/contact`           | `ros_gz_interfaces/Contacts` | Gazebo → ROS   | Collision detection                     |
+| `/obstacle_pose`     | `geometry_msgs/PoseArray`    | Gazebo → ROS   | All entity poses (ground, robot, obst.) |
+| `/cmd_vel_000`…`009` | `geometry_msgs/Twist`        | Env → Gazebo   | Per-obstacle velocity commands          |
+| `/vf`                | `sensor_msgs/Image`          | VF node → RViz | Value-function image (optional)         |
 
 ### NLP Decision Variable Layout
 
@@ -269,13 +265,13 @@ Compilation takes 45–90 seconds. Subsequent runs load the `.so` directly.
 
 ## Glossary
 
-| Term | Definition |
-|------|-----------|
-| **RNTC** | Residual Neural Terminal Constraint |
-| **NTC** | Neural Terminal Constraint |
-| **DCBF** | Discrete-time Control Barrier Function |
-| **VO** | Velocity Obstacle |
-| **SDF** | Signed Distance Function |
-| **MPC** | Model Predictive Control |
-| **NLP** | Nonlinear Programme |
-| **HSL** | Harwell Subroutine Library (provides MA57) |
+| Term     | Definition                                 |
+| -------- | ------------------------------------------ |
+| **RNTC** | Residual Neural Terminal Constraint        |
+| **NTC**  | Neural Terminal Constraint                 |
+| **DCBF** | Discrete-time Control Barrier Function     |
+| **VO**   | Velocity Obstacle                          |
+| **SDF**  | Signed Distance Function                   |
+| **MPC**  | Model Predictive Control                   |
+| **NLP**  | Nonlinear Programme                        |
+| **HSL**  | Harwell Subroutine Library (provides MA57) |
